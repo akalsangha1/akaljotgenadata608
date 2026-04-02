@@ -1,0 +1,27 @@
+{
+  "feature_cols": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "n_pca_components": 10,
+  "pca_variance_retained": 0.913278230114513,
+  "label_map": {
+    "0": "No Cardiovascular Risk",
+    "1": "Cardiovascular Risk Detected"
+  },
+  "model_type": "LogisticRegression + PCA",
+  "trained_on": "UCI Cleveland Heart Disease Dataset (n=303)",
+  "f1_score": 0.8852459016393442,
+  "roc_auc": 0.946969696969697
+}
