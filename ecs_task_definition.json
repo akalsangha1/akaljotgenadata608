@@ -1,0 +1,50 @@
+{
+  "family": "pulsepoint-streamlit",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+
+  "executionRoleArn": "arn:aws:iam::790238810785:role/LabRole",
+  "taskRoleArn":      "arn:aws:iam::790238810785:role/LabRole",
+
+  "containerDefinitions": [
+    {
+      "name": "pulsepoint-app",
+      "image": "790238810785.dkr.ecr.us-east-1.amazonaws.com/pulsepoint-streamlit:latest",
+
+      "portMappings": [
+        {
+          "containerPort": 8501,
+          "hostPort":      8501,
+          "protocol":      "tcp"
+        }
+      ],
+
+      "environment": [
+        { "name": "MODEL_ARTIFACT_DIR", "value": "/app/model_artifacts" },
+        { "name": "S3_BUCKET",          "value": "pulsepoint-raw-zone-akaljotmena" },
+        { "name": "S3_MODEL_PREFIX",    "value": "model_artifacts" }
+      ],
+
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group":         "/ecs/pulsepoint-streamlit",
+          "awslogs-region":        "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+
+      "healthCheck": {
+        "command":     ["CMD-SHELL", "curl -f http://localhost:8501/_stcore/health || exit 1"],
+        "interval":    30,
+        "timeout":     10,
+        "retries":     3,
+        "startPeriod": 60
+      },
+
+      "essential": true
+    }
+  ]
+}
